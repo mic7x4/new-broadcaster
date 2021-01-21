@@ -4,3 +4,13 @@
   font-family: "Poppins", sans-serif;
   box-sizing: border-box;
 }
+
+.showcase {
+  position: absolute;
+  right: 0;
+  width: 100%;
+  min-height: 100vh;
+}
+.menu {
+  display: none;
+}
