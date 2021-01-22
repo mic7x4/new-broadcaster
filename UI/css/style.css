@@ -200,11 +200,13 @@ body {
   width: 45%;
 }
 .left label,
-.right label {
+.right label,
+.center label {
   display: block;
 }
 .left input,
-.right input {
+.right input,
+.center input {
   display: block;
   width: 100%;
   padding: 10px 20px;
@@ -212,6 +214,28 @@ body {
   border: none;
   border-radius: 4px;
   margin: 5px 0;
+}
+
+/* Login */
+.create__account .login{
+  width: 50%;
+  margin-top: 7rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.center input{
+  margin: 1rem 0;
+}
+.login__form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem;
+}
+.login .btn{
+  margin-left: 30%;
+  margin-bottom: 2rem;
 }
 .btn {
   text-transform: uppercase;
@@ -258,5 +282,9 @@ footer {
   }
   .btn {
     margin-left: 0;
+  }
+  .login .btn {
+    margin-left:3rem;
+    width: 70%;
   }
 }
