@@ -1,29 +1,34 @@
 import Users from '../Model/Users.js'
 import bcrypt, { hash } from 'bcrypt';
+import helper from '../helper/helper.js';
+import jwt from 'jsonwebtoken';
 
+const JWT_SECRET = process.env.JWT_SECRET;
 
 class userControllers {
     // Getting all users
     static getUsers(req,res){
-        return res.status(200).json(Users);
+        return res.status(200).json({users:Users});
     }
     // Creating new users
     static userSignUp(req,res){    
-        const id = Users.length;
+        const id = Users.length+1;
         const {firstname,lastname,email,phoneNumber,username,password} = req.body;
-
-    bcrypt.hash(password,10, (err,hash) => {
-        if(err) return res.status(500).json({err:err});
-        const newUser = {id:id+1,firstname,lastname,email,password,phoneNumber,username,isAdmin:false};
-        newUser.password = hash;
+        const newUser = {id,firstname,lastname,email,password,phoneNumber,username,isAdmin:false}
+        newUser.password = bcrypt.hashSync(newUser.password,10); 
         const findEmail = Users.find((user) => user.email === email);
         const findUsername = Users.find((user) => user.username === username);
-        console.log(findEmail);
         if(findEmail) return res.status(400).json({message:'user with that email exists'});
         if(findUsername) return res.status(400).json({message:'Username already exists'});
+        const userToken = jwt.sign(newUser,JWT_SECRET,{expiresIn:'24h'});
+        console.log(userToken);
         Users.push(newUser);
-        return res.status(201).json({Users});
-    });
+        res.status(201).json({message:'User Created Successfully',
+        data:{
+            token:userToken,
+            newUser
+        }})
+   
     }
     // Getting a Single user
     static singleUser(req,res) { 
@@ -36,16 +41,20 @@ class userControllers {
     // User signin
     static userSignIn(req,res){ 
         const {email,password} = req.body;
-        const findUser = Users.find((user) => user.email===email);
-        const userPassword = findUser.password;
+        const findUser = Users.find((user) => user.email === email);
         const userEmail = findUser.email;
-        if(userPassword && userEmail){
+        const userPassword =  findUser.password;
+        const compare = bcrypt.compareSync(password,userPassword);
+        const userToken = jwt.sign(email,JWT_SECRET);
+        if(compare && userEmail){
             return res.status(200).json({
-                message:'User Logged in Successfully!',
-                data:{token:"User token"}
-            });
+                message:'User Loggin successfully',
+                data:userToken
+            })
+            
+
         }else{
-            return res.status(404).json({message:"Incorrect email or password"});
+            console.log('Incorrect email or password');
         }
     }
 }
