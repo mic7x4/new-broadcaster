@@ -37,6 +37,29 @@ class recordControllers{
         data:{status:res.statusCode,record:foundRecord}})
     
     }
+    // Edit record Comment 
+    static editComment(req,res){
+        const commentIndex = Records.findIndex((comment) => comment.id === parseInt(req.params.id,10));
+        console.log(Records[commentIndex]);
+        if(Records[commentIndex].status ==='draft'){
+            if(commentIndex >= 0) {
+            Records[commentIndex].comment = req.body.comment;
+            return res.status(200).json({
+                status:res.statusCode,
+                message:"Comment updated Successfully!",
+                data:Records[commentIndex]
+            });
+        }
+        return res.status(404).json({
+            status:res.statusCode,
+            error:'Comment with given ID not found'
+        });
+        }
+        return res.status(400).json({
+            status:res.statusCode,
+            message:'You can\'t edit this record it is into Investigation'
+        });
+    }
 }
 
 
