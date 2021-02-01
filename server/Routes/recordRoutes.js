@@ -7,6 +7,7 @@ const recordRoute = express.Router();
 recordRoute.post('/records',recordControllers.createRecord);
 recordRoute.get('/records',recordControllers.getRecords);
 recordRoute.get('/records/:id',recordControllers.getSingleRecord);
+recordRoute.patch('/records/:id/comment',recordControllers.editComment);
 
 
 export default recordRoute;
