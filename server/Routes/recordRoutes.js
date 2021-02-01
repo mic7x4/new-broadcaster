@@ -8,6 +8,7 @@ recordRoute.post('/records',recordControllers.createRecord);
 recordRoute.get('/records',recordControllers.getRecords);
 recordRoute.get('/records/:id',recordControllers.getSingleRecord);
 recordRoute.patch('/records/:id/comment',recordControllers.editComment);
+recordRoute.patch('/records/:id/location',recordControllers.editLocation);
 
 
 export default recordRoute;

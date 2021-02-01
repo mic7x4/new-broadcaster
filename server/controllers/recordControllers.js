@@ -40,7 +40,6 @@ class recordControllers{
     // Edit record Comment 
     static editComment(req,res){
         const commentIndex = Records.findIndex((comment) => comment.id === parseInt(req.params.id,10));
-        console.log(Records[commentIndex]);
         if(Records[commentIndex].status ==='draft'){
             if(commentIndex >= 0) {
             Records[commentIndex].comment = req.body.comment;
@@ -60,7 +59,30 @@ class recordControllers{
             message:'You can\'t edit this record it is into Investigation'
         });
     }
-}
+    // Edit Record Location
+    static editLocation(req,res) {
+        const locationIndex = Records.findIndex((location) => location.id === parseInt(req.params.id,10));
+        if(Records[locationIndex].status === 'draft'){
+            if(locationIndex>=0){
+                Records[locationIndex].location = req.body.location;
+                return res.status(200).json({
+                    status:res.statusCode,
+                    message:'Record Location updated Successfully',
+                    data:Records[locationIndex]
+                });
+            }
+            return res.status(404).json({
+                status: res.statusCode,
+                error:'Location with that ID not found'
+            });
+        }
+        return res.status(400).json({
+            status:res.statusCode,
+            message:"You can't edit this record"
+        });
+        }
+    }
+
 
 
 
