@@ -1,5 +1,6 @@
 import express from 'express';
 import recordControllers from '../controllers/recordControllers.js';
+import validation from '../validation/recordValidation.js';
 
 
 const recordRoute = express.Router();
