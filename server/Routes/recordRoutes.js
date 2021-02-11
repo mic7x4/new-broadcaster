@@ -1,6 +1,7 @@
 import express from 'express';
 import recordControllers from '../controllers/recordControllers.js';
-import validation from '../validation/recordValidation.js';
+import tokenValidator from '../middleware/auth.js';
+
 
 
 const recordRoute = express.Router();
@@ -8,8 +9,8 @@ const recordRoute = express.Router();
 recordRoute.post('/records',recordControllers.createRecord);
 recordRoute.get('/records',recordControllers.getRecords);
 recordRoute.get('/records/:id',recordControllers.getSingleRecord);
-recordRoute.patch('/records/:id/comment',recordControllers.editComment);
-recordRoute.patch('/records/:id/location',recordControllers.editLocation);
+recordRoute.patch('/records/:id/comment',tokenValidator,recordControllers.editComment);
+recordRoute.patch('/records/:id/location',tokenValidator,recordControllers.editLocation);
 recordRoute.delete('/records/:id',recordControllers.deleteRecord);
 
 

@@ -40,7 +40,7 @@ class recordControllers{
     // Edit record Comment 
     static editComment(req,res){
         const commentIndex = Records.findIndex((comment) => comment.id === parseInt(req.params.id,10));
-        if(Records[commentIndex].status ==='draft'){
+        if(Records[commentIndex].status == 'draft'){
             if(commentIndex >= 0) {
             Records[commentIndex].comment = req.body.comment;
             return res.status(200).json({
@@ -48,11 +48,12 @@ class recordControllers{
                 message:"Comment updated Successfully!",
                 data:Records[commentIndex]
             });
-        }
+        }else{
         return res.status(404).json({
             status:res.statusCode,
             error:'Comment with given ID not found'
         });
+        }
         }
         return res.status(400).json({
             status:res.statusCode,
@@ -62,6 +63,7 @@ class recordControllers{
     // Edit Record Location
     static editLocation(req,res) {
         const locationIndex = Records.findIndex((location) => location.id === parseInt(req.params.id,10));
+        console.log(Records[locationIndex].id);
         if(Records[locationIndex].status === 'draft'){
             if(locationIndex>=0){
                 Records[locationIndex].location = req.body.location;
@@ -71,10 +73,7 @@ class recordControllers{
                     data:Records[locationIndex]
                 });
             }
-            return res.status(404).json({
-                status: res.statusCode,
-                error:'Location with that ID not found'
-            });
+            
         }
         return res.status(400).json({
             status:res.statusCode,

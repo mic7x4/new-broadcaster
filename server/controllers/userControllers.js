@@ -21,7 +21,6 @@ class userControllers {
         if(findEmail) return res.status(400).json({message:'user with that email exists'});
         if(findUsername) return res.status(400).json({message:'Username already exists'});
         const userToken = jwt.sign(newUser,JWT_SECRET,{expiresIn:'24h'});
-        console.log(userToken);
         Users.push(newUser);
         res.status(201).json({message:'User Created Successfully',
         data:{
@@ -45,11 +44,11 @@ class userControllers {
         const userEmail = findUser.email;
         const userPassword =  findUser.password;
         const compare = bcrypt.compareSync(password,userPassword);
-        const userToken = jwt.sign(email,JWT_SECRET);
+        const userToken = jwt.sign(findUser,JWT_SECRET);
         if(compare && userEmail){
             return res.status(200).json({
                 message:'User Loggin successfully',
-                data:userToken
+                token:userToken
             })
             
 
